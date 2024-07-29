@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "438714719320",
+    "project_id": "devicevalidator-dc1e3",
+    "storage_bucket": "devicevalidator-dc1e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438714719320:android:542baeae92cf262c3f7e2d",
+        "android_client_info": {
+          "package_name": "com.hydrowverse.scan_device_qr_code"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHV1ud7of01ifjFayJrDFld57bAGAMPvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438714719320:android:ff3fa88601bc483e3f7e2d",
+        "android_client_info": {
+          "package_name": "com.hydrowverse.qrcs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHV1ud7of01ifjFayJrDFld57bAGAMPvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
