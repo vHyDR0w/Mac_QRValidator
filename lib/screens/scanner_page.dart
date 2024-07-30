@@ -42,6 +42,16 @@ class _ScannerPageState extends State<ScannerPage> {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       controller?.pauseCamera();
     }
+    if (defaultTargetPlatform == TargetPlatform.macOS) {
+      controller?.pauseCamera();
+    }
+    if (defaultTargetPlatform == TargetPlatform.windows) {
+      controller?.pauseCamera();
+    }
+    if (defaultTargetPlatform == TargetPlatform.linux) {
+      controller?.pauseCamera();
+    }
+
     controller?.resumeCamera();
   }
 
