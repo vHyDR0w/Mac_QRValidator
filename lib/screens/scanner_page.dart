@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:scan_device_qr_code/constants/empty_feed.dart';
 import 'package:scan_device_qr_code/constants/qr_interchange.dart';
 import 'package:scan_device_qr_code/screens/interchange_qr.dart';
 import 'package:scan_device_qr_code/screens/result_page_pravah.dart';
@@ -134,6 +135,7 @@ class _ScannerPageState extends State<ScannerPage> {
         //As user have embedded data using 2'&'
         //The 1st part is channelId, 2nd ReadApi, 3rd WriteApi
         String? qrData = scanData.code;
+        print(qrData);
         List<String>? parts = qrData?.split('&');
         if (parts!.length < 4) {
           //if user don't get 4 info ==> then user've scanned wrong qr
@@ -150,6 +152,7 @@ class _ScannerPageState extends State<ScannerPage> {
 
           //storing http request using fetchApiData in variable
           var response = await fetchApiData(cId, readApi, writeApi);
+          print("Length = ${response["feeds"].length}");
           if (response.isEmpty) {
             //if response is empty ==> may arise if the device doesn't contain data
             Navigator.pushReplacement(
@@ -160,14 +163,7 @@ class _ScannerPageState extends State<ScannerPage> {
             //received JSON and calling ResultPage passing response as
             //a parameter for displaying the results
             if (_starrDevice == true) {
-              if (deviceType == "sTaRrHyDrOwVeRiFsTrInG") {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ResultPage(data: response),
-                  ),
-                );
-              } else {
+              if (deviceType != "sTaRrHyDrOwVeRiFsTrInG") {
                 //Not a star device
                 Navigator.pushReplacement(
                   context,
@@ -176,22 +172,45 @@ class _ScannerPageState extends State<ScannerPage> {
                         InterchangeQr(Wbody: qrInterchangeStarr()),
                   ),
                 );
-              }
-            } else {
-              if (deviceType == "pRaVaHhYdRoWvErIfStRiNg") {
+              } else if (response["feeds"].length == 0) {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ResultPagePravah(data: response),
+                    builder: (context) => InterchangeQr(
+                      Wbody: emptyFeed(),
+                    ),
                   ),
                 );
               } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultPage(data: response),
+                  ),
+                );
+              }
+            } else {
+              if (deviceType != "pRaVaHhYdRoWvErIfStRiNg") {
                 //Not a pravah device
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
                         InterchangeQr(Wbody: qrInterchangePravah()),
+                  ),
+                );
+              } else if (response["feeds"].length == 0) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InterchangeQr(Wbody: emptyFeed()),
+                  ),
+                );
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultPagePravah(data: response),
                   ),
                 );
               }
