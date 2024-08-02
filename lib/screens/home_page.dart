@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:scan_device_qr_code/screens/krb.dart';
+import 'package:scan_device_qr_code/screens/parijatnivas.dart';
 import 'package:scan_device_qr_code/screens/select_device.dart';
 import '../services/auth_service.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../screens/scanner_page.dart';
+import '../screens/scanner_page.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,14 +81,31 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 16.0,
                     );
                   } else {
+                    // var responseStarr =
+                    //     await fetchApiData("2131010", "UU1WE3CLK2QXPNYP");
+                    var responsePravah =
+                        await fetchApiData("1455035", "9KRNLG9REQBBTTVC");
+
                     Navigator.push(
                       context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const ScannerPage()),
-                      // );
+                      MaterialPageRoute(
+                        builder: (context) => Parijatnivas(
+                          data: responsePravah,
+                        ),
+                      ),
+                      /*
+                      MaterialPageRoute(
+                        builder: (context) => Krb(
+                          data: responseStarr,
+                        ),
+                      ),
+                      */
+
+                      /*
                       MaterialPageRoute(
                         builder: (context) => const SelectDevice(),
                       ),
+                      */
                     );
                   }
                 },
@@ -106,5 +129,25 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<Map<String, dynamic>> fetchApiData(String cId, String readApi) async {
+    //making http request in try catch block for handling exceptions,
+    //if valid then the function returns a Future<Map<String, dynamic>>, which means it returns a Future that resolves to a Map with String keys and dynamic values.
+    //if invalid the it return empty <Map<>>
+    try {
+      //using http package to make GET request from ThinkSpeak Api
+      final response = await http.get(Uri.parse(
+          'https://api.thingspeak.com/channels/$cId/feeds.json?api_key=$readApi&results=1'));
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      // print('Error: $e');
+      return {};
+    }
   }
 }
